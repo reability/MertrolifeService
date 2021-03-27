@@ -24,7 +24,7 @@ class WebSocket(web.View):
                     print(msg.data)
                     await ws.send_str(json.loads(msg.data)["text"])
 
-                    if ChatRoom(self.request.db).fetchChatRoom(json.loads(msg.data)["user_id"]):
+                    if await ChatRoom(self.request.db).fetchChatRoom(json.loads(msg.data)["user_id"]):
                         pass
 
                     ws_connections = self.request.app['websockets'][:]
