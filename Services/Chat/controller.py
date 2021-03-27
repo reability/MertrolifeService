@@ -21,16 +21,24 @@ class WebSocket(web.View):
                 if msg.data == 'close':
                     await ws.close()
                 else:
-                    print(msg.data)
-                    await ws.send_str(json.loads(msg.data)["text"])
+                    json_msg = json.loads(msg.data)
+                    user_id = json_msg["user_id"]
+                    text = json_msg["text"]
 
-                    if await ChatRoom(self.request.db).fetchChatRoom(json.loads(msg.data)["user_id"]):
-                        pass
+                    await ws.send_str(text)
+
+                    if await ChatRoom(self.request.db).fetchChatRoom(user_id):
+                        await ChatRoom(self.request.db).update(user_id, text)
+                    else:
+                        await ChatRoom(self.request.db).create(user_id)
+                        await ChatRoom(self.request.db).update(user_id, text)
+
+                    print(await ChatRoom(self.request.db).fetchChatRoom(user_id))
 
                     ws_connections = self.request.app['websockets'][:]
                     ws_connections.remove(ws)
                     for ws_connection in ws_connections:
-                        await ws_connection.send_str(msg.data)
+                        await ws_connection.send_str(text)
 
             elif msg == WSMsgType.error:
                 print('ws connection closed with exception %s' % ws.exception())

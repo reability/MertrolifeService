@@ -15,7 +15,7 @@ class ChatRoom:
         result = await self.collection.insert_one(
             {
                 "user_id": user_id,
-                "messages": []
+                "messages": [0]
             }
         )
         return result
@@ -23,6 +23,18 @@ class ChatRoom:
     async def update(self, user_id, message):
         query = {"user_id": user_id}
         chat_room = await self.collection.find_one(query)
-        result = await self.collection.update_one(query, {"$set": {"messages": chat_room["messages"].append(message)}})
+        print('before update',chat_room)
+        if not chat_room["messages"]:
+            print('empty msg')
+            messages = []
+            messages.append(message)
+            result = await self.collection.update_one(query,
+                                                      {"$set": {"messages": messages}})
+        else:
+            print('got msg')
+            messages = chat_room["messages"]
+            messages.append(message)
+            result = await self.collection.update_one(query,
+                                                      {"$set": {"messages": messages}})
         return result
 
