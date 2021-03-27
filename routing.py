@@ -11,5 +11,5 @@ routings = [
     Router("GET", "poi", "/poi", POIController),
     Router("*", "pois", "/pois", POIsController),
 
-    Router("*", "cr", "/cr", )
+    Router("*", "cr", "/cr", ChatRoomController)
 ]
