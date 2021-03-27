@@ -1,7 +1,7 @@
 from Core.route import Router
 from Services.Auth.controller import AuthController
 from Services.User.controller import UserController
-from Services.Chat.controller import WebSocket
+from Services.Chat.controller import WebSocket, ChatRoomController
 from Services.POI.controller import POIController, POIsController
 
 routings = [
@@ -9,5 +9,7 @@ routings = [
     Router("*", "user", "/user", UserController),
     Router("GET", "chat", "/ws", WebSocket),
     Router("GET", "poi", "/poi", POIController),
-    Router("*", "pois", "/pois", POIsController)
+    Router("*", "pois", "/pois", POIsController),
+
+    Router("*", "cr", "/cr", )
 ]
