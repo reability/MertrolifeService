@@ -36,8 +36,9 @@ class WebSocket(web.View):
                     print(await ChatRoom(self.request.db).fetchChatRoom(user_id))
 
                     ws_connections = self.request.app['websockets'][:]
-                    ws_connections.remove(ws)
                     for ws_connection in ws_connections:
+                        if ws_connection == ws:
+                            pass
                         await ws_connection.send_str(text)
 
             elif msg == WSMsgType.error:
