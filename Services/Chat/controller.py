@@ -16,7 +16,8 @@ class WebSocket(web.View):
                 if msg.data == 'close':
                     await ws.close()
                 else:
-                    ws_connections = self.request.app['websockets'].remove(ws)
+                    ws_connections = self.request.app['websockets'][:]
+                    ws_connections.remove(ws)
                     for ws_connection in ws_connections:
                         await ws_connection.send_str(msg.data)
 
