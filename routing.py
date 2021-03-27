@@ -10,6 +10,5 @@ routings = [
     Router("GET", "chat", "/ws", WebSocket),
     Router("GET", "poi", "/poi", POIController),
     Router("*", "pois", "/pois", POIsController),
-
-    Router("*", "cr", "/cr", ChatRoomController)
+    Router("*", "chat-room", "/chat-room", ChatRoomController)
 ]
