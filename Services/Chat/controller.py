@@ -7,6 +7,7 @@ class WebSocket(web.View):
 
         ws = web.WebSocketResponse()
         await ws.prepare(self.request)
+        await ws.send_str('hello my dear mister Popponi')
 
         self.request.app['websockets'].append(ws)
 
