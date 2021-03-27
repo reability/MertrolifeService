@@ -21,6 +21,7 @@ class WebSocket(web.View):
                 if msg.data == 'close':
                     await ws.close()
                 else:
+                    print(msg.data)
                     await ws.send_str(json.loads(msg.data)["text"])
 
                     if ChatRoom(self.request.db).fetchChatRoom(json.loads(msg.data)["user_id"]):
