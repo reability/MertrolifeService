@@ -16,7 +16,9 @@ class WebSocket(web.View):
                 if msg.data == 'close':
                     await ws.close()
                 else:
-                    await ws.send_str(msg.data)
+                    ws_connections = self.request.app['websockets'].remove(ws)
+                    for ws_connection in ws_connections:
+                        await ws_connection.send_str(msg.data)
 
             elif msg == WSMsgType.error:
                 print('ws connection closed with exception %s' % ws.exception())
