@@ -18,9 +18,9 @@ async def db_handler(request, handler):
 
 
 async def on_shutdown(app):
-    pass
-    # for ws in app['websockets']:
-    # await ws.close(code=1001, message='Server shutdown')
+    # pass
+    for ws in app['websockets']:
+        await ws.close(code=1001, message='Server shutdown')
 
 
 async def shutdown(server, app, runner):
@@ -40,7 +40,7 @@ async def init(loop):
 
     app.client = ma.AsyncIOMotorClient(MONGO_HOST)
     app.db = app.client[MONGO_DB_NAME]
-
+    app['websockets'] = []
     app.on_shutdown.append(on_shutdown)
 
     runner = app.make_handler()
