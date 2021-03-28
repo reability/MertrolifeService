@@ -32,3 +32,7 @@ class ChatRoom:
             result = await self.collection.update_one(query,
                                                       {"$set": {"messages": messages}})
         return result
+
+    async def fetch_chatrooms(self):
+        chat_rooms = await self.collection.find().to_list(length=100)
+        return chat_rooms

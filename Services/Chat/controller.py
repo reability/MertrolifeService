@@ -53,8 +53,9 @@ class ChatRoomController(web.View):
     async def get(self):
         data = self.request.query
         user_id = data["user_id"]
-        chat_room = await ChatRoom(self.request.db).fetch_chatroom(user_id)
-        return web.Response(content_type='application/json', text=JSONEncoder().encode(chat_room))
+        chat_room = await ChatRoom(self.request.db).fetch_chatrooms()
+        response = {"chatrooms": chat_room}
+        return web.Response(content_type='application/json', text=JSONEncoder().encode(response))
 
     async def post(self):
         data = await self.request.json()
