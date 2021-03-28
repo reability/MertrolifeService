@@ -27,13 +27,13 @@ class WebSocket(web.View):
 
                     await ws.send_str(text)
 
-                    if await ChatRoom(self.request.db).fetchChatRoom(user_id):
+                    if await ChatRoom(self.request.db).fetch_chatroom(user_id):
                         await ChatRoom(self.request.db).update(user_id, text)
                     else:
                         await ChatRoom(self.request.db).create(user_id)
                         await ChatRoom(self.request.db).update(user_id, text)
 
-                    print(await ChatRoom(self.request.db).fetchChatRoom(user_id))
+                    print(await ChatRoom(self.request.db).fetch_chatroom(user_id))
 
                     ws_connections = self.request.app['websockets'][:]
                     for ws_connection in ws_connections:
@@ -44,16 +44,16 @@ class WebSocket(web.View):
             elif msg == WSMsgType.error:
                 print('ws connection closed with exception %s' % ws.exception())
 
-
         self.request.app['websockets'].remove(ws)
         print('ws connection closed')
         return ws
+
 
 class ChatRoomController(web.View):
     async def get(self):
         data = self.request.query
         user_id = data["user_id"]
-        chat_room = await ChatRoom(self.request.db).fetchChatRoom(str(user_id))
+        chat_room = await ChatRoom(self.request.db).fetch_chatroom(str(user_id))
         return web.Response(content_type='application/json', text=JSONEncoder().encode(chat_room))
 
     async def post(self):

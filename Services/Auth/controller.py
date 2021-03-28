@@ -6,4 +6,4 @@ class AuthController(web.View):
         return web.Response(content_type='application/json', text="")
 
     async def post(self):
-        data = await self.request.post()
+        data = await self.request.json()

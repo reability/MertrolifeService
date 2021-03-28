@@ -4,7 +4,7 @@ COLLECTIONS = {
     "Users": "USERSCLLECTION"
 }
 
-MONGO_HOST='mongodb://127.0.0.1:27017'
-MONGO_DB_NAME='test'
-HOST='0.0.0.0'
-PORT=8000
+MONGO_HOST = 'mongodb://127.0.0.1:27017'
+MONGO_DB_NAME = 'test'
+HOST = '0.0.0.0'
+PORT = 8000

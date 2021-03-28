@@ -1,4 +1,3 @@
-from bson.objectid import ObjectId
 
 
 class ChatRoom:
@@ -6,7 +5,7 @@ class ChatRoom:
         self.db = db
         self.collection = self.db['CHATROOM']
 
-    async def fetchChatRoom(self, user_id):
+    async def fetch_chatroom(self, user_id):
         query = {"user_id": user_id}
         chat_room = await self.collection.find_one(query)
         return chat_room
@@ -23,18 +22,13 @@ class ChatRoom:
     async def update(self, user_id, message):
         query = {"user_id": user_id}
         chat_room = await self.collection.find_one(query)
-        print('before update',chat_room)
         if not chat_room["messages"]:
-            print('empty msg')
-            messages = []
-            messages.append(message)
+            messages = [message]
             result = await self.collection.update_one(query,
                                                       {"$set": {"messages": messages}})
         else:
-            print('got msg')
             messages = chat_room["messages"]
             messages.append(message)
             result = await self.collection.update_one(query,
                                                       {"$set": {"messages": messages}})
         return result
-

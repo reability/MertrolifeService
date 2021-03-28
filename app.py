@@ -18,7 +18,6 @@ async def db_handler(request, handler):
 
 
 async def on_shutdown(app):
-    # pass
     for ws in app['websockets']:
         await ws.close(code=1001, message='Server shutdown')
 
